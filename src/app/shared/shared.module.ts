@@ -1,6 +1,6 @@
-import { HttpClientModule } from "@angular/common/http";
-import { NgModule } from "@angular/core";
-import {QuillModule} from 'ngx-quill'
+import {NgModule} from '@angular/core';
+import {HttpClientModule} from '@angular/common/http';
+import {QuillModule} from 'ngx-quill';
 
 @NgModule({
   imports: [
@@ -12,4 +12,6 @@ import {QuillModule} from 'ngx-quill'
     QuillModule
   ]
 })
-export class SharedModule {}
+export class SharedModule {
+
+}

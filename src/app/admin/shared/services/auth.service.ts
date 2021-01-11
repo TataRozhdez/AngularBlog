@@ -1,16 +1,16 @@
-import { Injectable } from "@angular/core";
-import {HttpClient, HttpErrorResponse} from "@angular/common/http"
-import { FbAuthResponse, User } from "src/app/shared/interfaces";
-import { Observable, Subject, throwError } from "rxjs";
-import { catchError, tap } from 'rxjs/operators'
-import { environment } from "src/environments/environment";
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {FbAuthResponse, User} from '../../../shared/interfaces';
+import {Observable, Subject, throwError} from 'rxjs';
+import {environment} from '../../../../environments/environment';
+import {catchError, tap} from 'rxjs/operators';
 
-@Injectable() 
+@Injectable()
 export class AuthService {
 
   public error$: Subject<string> = new Subject<string>()
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   get token(): string {
     const expDate = new Date(localStorage.getItem('fb-token-exp'))
@@ -18,13 +18,11 @@ export class AuthService {
       this.logout()
       return null
     }
-
     return localStorage.getItem('fb-token')
   }
-  
+
   login(user: User): Observable<any> {
     user.returnSecureToken = true
-
     return this.http.post(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.apiKey}`, user)
       .pipe(
         tap(this.setToken),
@@ -36,24 +34,23 @@ export class AuthService {
     this.setToken(null)
   }
 
-
   isAuthenticated(): boolean {
     return !!this.token
   }
 
   private handleError(error: HttpErrorResponse) {
-    const { message } = error.error.error
-    
+    const {message} = error.error.error
+
     switch (message) {
-      case 'EMAIL_NOT_FOUND':
-        this.error$.next('Email не найден')
-        break;
       case 'INVALID_EMAIL':
         this.error$.next('Неверный email')
-        break;
+        break
       case 'INVALID_PASSWORD':
         this.error$.next('Неверный пароль')
-        break;
+        break
+      case 'EMAIL_NOT_FOUND':
+        this.error$.next('Такого email нет')
+        break
     }
 
     return throwError(error)

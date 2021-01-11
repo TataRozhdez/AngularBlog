@@ -1,19 +1,14 @@
 <form class="card" [formGroup]="form" (ngSubmit)="submit()">
   <h2>Войти в панель администратора</h2>
 
-  <div 
-    class="alert alert-danger"
-    *ngIf="auth.error$ | async as error"
-  >
-    {{error}}
+
+  <div class="alert alert-danger" *ngIf="auth.error$ | async as error">
+    {{ error }}
   </div>
 
-  <div 
-  class="alert alert-info"
-  *ngIf="message"
->
-  {{message}}
-</div>
+  <div class="alert alert-info" *ngIf="message">
+    {{ message }}
+  </div>
 
   <div
     class="form-control"
@@ -51,8 +46,8 @@
         Пароль должен быть не менее
         {{form.get('password').errors.minlength.requiredLength}}
         символов. Сейчас он
-        {{form.get('password').errors.minlength.actualLength}} 
-        символов.
+        {{form.get('password').errors.minlength.actualLength}}
+        символа.
       </small>
     </div>
   </div>
